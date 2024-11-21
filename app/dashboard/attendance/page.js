@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import GlobalApi from "@/app/_services/GlobalApi"; // Adjust this if the path is different
-import AttendanceGrid from "./_components/AttendanceGrid.jsx";
+import AttendanceGrid from "./_components/AttendanceGrid";
 import MonthSelection from "../../_comp/MonthSelection.jsx";
 import BatchSelection from "../../_comp/BatchSelection.jsx";
 import { Button } from "@/components/ui/button.jsx";
@@ -13,22 +13,23 @@ export default function Attendance() {
   const [selectedMonth, setSelectedMonth] = useState();
   const [selectedBatch, setSelectedBatch] = useState();
 
-  const [attendanceData, setAttendanceData] = useState(null);
+  // const [attendanceData, setAttendanceData] = useState(null);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
   const [attendanceList, setAttendanceList] = useState();
 
   function onSearchHandler(){
     // console.log(selectedMonth, selectedBatch);
-    const month = moment(selectedMonth).format('MM/YYYY');
+    const month = moment(selectedMonth).format('YYYY-MM-DD');
     // console.log(selectedMonth);
     console.log(selectedBatch);
     console.log(month);
     GlobalApi.GetAttendanceList(selectedBatch,month).then(response => {
-      setAttendanceList(response.data);
+      console.log(response);
+      setAttendanceList(response);
     })
+    
   }
-
   
   return (
     <div>
@@ -47,22 +48,24 @@ export default function Attendance() {
         <Button onClick={() => onSearchHandler()} className="text-white mt-2" >Search</Button>
       </div>
 
-      {/* <AttendanceGrid attendanceList={attendanceList}  /> */}
-      {attendanceData ? (
-        <div>
-          {/* Render your attendance data */}
-          <ul>
-            {attendanceData.map((attendance) => (
-              <li key={attendance.id}>
-                {attendance.studentName} -{" "}
-                {attendance.isPresent ? "Present" : "Absent"}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div>No data available</div>
-      )}
+       <AttendanceGrid attendanceList={attendanceList} selectedMonth={selectedMonth} /> 
+      
     </div>
   );
 }
+
+// {attendanceData ? (
+//   <div>
+//     {/* Render your attendance data */}
+//     <ul>
+//       {attendanceData.map((attendance) => (
+//         <li key={attendance.id}>
+//           {attendance.studentName} -{" "}
+//           {attendance.isPresent ? "Present" : "Absent"}
+//         </li>
+//       ))}
+//     </ul>
+//   </div>
+// ) : (
+//   <div>No data available</div>
+// )}

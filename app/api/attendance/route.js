@@ -1,7 +1,7 @@
 import { attendance, students } from "@/utils/schema";
 import { db } from "../../../utils/dbConfig";
 import exp from "constants";
-import { eq, and } from "drizzle-orm";
+import { eq, and, or, isNull } from "drizzle-orm";
 
 import { NextResponse } from "next/server";
 export async function GET(req) {
@@ -21,13 +21,36 @@ export async function GET(req) {
             present:attendance.isPresent,
             date:attendance.date,
             batch:students.batchId,
-            id:attendance.id
+            studentId: students.id,
+            attendanceId:attendance.id
     
-        }).from(students)
-        .leftJoin(attendance,and(eq(students.id,attendance.id),eq(attendance.date,month)))
-        .where(eq(students.batchId,batch))
-        .where(eq(attendance.date,month))
-        
+        })
+        .from(students)
+            .leftJoin(
+                attendance,
+                and(
+                    eq(attendance.studentId, students.id), // Match student IDs
+                    eq(attendance.date, month)             // Match specific date
+                )
+            )
+            .where(eq(students.batchId, batch)); // Filter by batch
+        // .from(attendance)
+        //     .innerJoin(
+        //         students,
+        //         and(
+        //             eq(attendance.studentId, students.id), // Match student IDs
+        //             eq(students.batchId, batch)          // Filter by batch
+        //         )
+        //     )
+        //     .where(and(
+        //         eq(attendance.date, month),               // Filter by date
+        //         // eq(attendance.isPresent, true)           // Only present students
+        //     ));
+        // .from(students)
+        // .leftJoin(attendance,and(eq(students.id,attendance.studentId)))
+        // .where(eq(students.batchId,batch))
+        // .where(eq(attendance.date, month))
+
         return NextResponse.json(result)
     }catch(err){
         console.log("Error fetching attendance data" + err)

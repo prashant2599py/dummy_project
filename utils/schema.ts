@@ -23,8 +23,8 @@ export const students = pgTable('students', {
 // Define the `attendance` table
 export const attendance = pgTable('attendance', {
   id: serial('id').primaryKey(),
-  studentId: integer('student_id').notNull().references(() => students.id), // Foreign key to the `students` table
-  date: varchar('date').notNull(),
-  isPresent: boolean('is_present').notNull(),
+  studentId: integer('student_id').notNull(), // Foreign key to the `students` table
+  date: date('date').notNull(),
+  isPresent: boolean('is_present').default(false),
   createdAt: date('created_at').defaultNow(),
 });
