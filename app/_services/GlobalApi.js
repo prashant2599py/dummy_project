@@ -68,7 +68,7 @@ const GetAttendanceList = async (batch, month) => {
 // Mark attendance for a student
 const MarkAttendance = async (data) => {
   try {
-    const resp = await axiosInstance.post('/api/attendance/route', data); // Adjusted path
+    const resp = await axiosInstance.post('/api/attendance', data); // Adjusted path
     return resp.data;
   } catch (error) {
     console.error("Failed to mark attendance:", error);
@@ -79,7 +79,7 @@ const MarkAttendance = async (data) => {
 // Mark a student absent by ID and date
 const MarkAbsent = async (id, date) => {
   try {
-    const resp = await axiosInstance.delete(`/api/attendance/route?id=${id}&date=${date}`); // Adjusted path
+    const resp = await axiosInstance.delete(`/api/attendance?id=${id}&date=${date}`); // Adjusted path
     return resp.data;
   } catch (error) {
     console.error("Failed to mark absent:", error);

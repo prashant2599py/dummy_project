@@ -20,7 +20,7 @@ export default function Attendance() {
 
   function onSearchHandler(){
     // console.log(selectedMonth, selectedBatch);
-    const month = moment(selectedMonth).format('YYYY-MM-DD');
+    const month = moment(selectedMonth).format('YYYY/MM');
     // console.log(selectedMonth);
     console.log(selectedBatch);
     console.log(month);

@@ -11,16 +11,16 @@ import GlobalApi from "@/app/_services/GlobalApi"; // Import GlobalApi
 
 function Dashboard() {
   const { setTheme } = useTheme();
-  const [selectedMonth, setSelectedMonth] = useState(moment().format("MM/YYYY"));
-  const [selectedBatch, setSelectedBatch] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(moment().format("YYYY/MM"));
+  const [selectedBatch, setSelectedBatch] = useState();
   const [attendanceList, setAttendanceList] = useState([]);
   const [totalPresentData, setTotalPresentData] = useState([]);
 
-  useEffect(() => {
-    if (selectedBatch && selectedMonth) {
-      fetchAttendanceData();
-    }
-  }, [selectedMonth, selectedBatch]);
+  // useEffect(() => {
+  //   if (selectedBatch && selectedMonth) {
+  //     fetchAttendanceData();
+  //   }
+  // }, [selectedMonth, selectedBatch]);
 
   // Fetch Attendance List
   const fetchAttendanceData = async () => {
@@ -62,11 +62,11 @@ function Dashboard() {
         <div className="flex items-center gap-4">
           <MonthSelection
             selectedMonth={selectedMonth}
-            setSelectedMonth={setSelectedMonth}
+            // setSelectedMonth={setSelectedMonth}
           />
           <BatchSelection
             selectedBatch={selectedBatch}
-            setSelectedBatch={setSelectedBatch}
+            // setSelectedBatch={setSelectedBatch}
           />
         </div>
       </div>

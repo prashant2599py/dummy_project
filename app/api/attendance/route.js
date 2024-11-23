@@ -1,7 +1,7 @@
 import { attendance, students } from "@/utils/schema";
 import { db } from "../../../utils/dbConfig";
 import exp from "constants";
-import { eq, and, or, isNull } from "drizzle-orm";
+import { eq, and} from "drizzle-orm";
 
 import { NextResponse } from "next/server";
 export async function GET(req) {
@@ -19,7 +19,8 @@ export async function GET(req) {
         const result =await db.select({
             name:students.name,
             present:attendance.isPresent,
-            date:attendance.date,
+            month_year: attendance.monthYear,
+            day: attendance.day,
             batch:students.batchId,
             studentId: students.id,
             attendanceId:attendance.id
@@ -30,26 +31,10 @@ export async function GET(req) {
                 attendance,
                 and(
                     eq(attendance.studentId, students.id), // Match student IDs
-                    eq(attendance.date, month)             // Match specific date
+                    eq(attendance.monthYear, month)             // Match specific date
                 )
             )
             .where(eq(students.batchId, batch)); // Filter by batch
-        // .from(attendance)
-        //     .innerJoin(
-        //         students,
-        //         and(
-        //             eq(attendance.studentId, students.id), // Match student IDs
-        //             eq(students.batchId, batch)          // Filter by batch
-        //         )
-        //     )
-        //     .where(and(
-        //         eq(attendance.date, month),               // Filter by date
-        //         // eq(attendance.isPresent, true)           // Only present students
-        //     ));
-        // .from(students)
-        // .leftJoin(attendance,and(eq(students.id,attendance.studentId)))
-        // .where(eq(students.batchId,batch))
-        // .where(eq(attendance.date, month))
 
         return NextResponse.json(result)
     }catch(err){
@@ -59,11 +44,13 @@ export async function GET(req) {
 }
 export async function POST(req) {
     const data = await req.json();
+    // console.log(data);
     const result=await db.insert(attendance)
     .values({
-        id:data.id,
-        present:data.present,
-        date:data.date
+        studentId:data.studentId,
+        isPresent:data.present,
+        monthYear:data.monthYear,
+        day: data.day
     });
     return NextResponse.json({ success: true, result });
 }
