@@ -56,16 +56,19 @@ export async function POST(req) {
 }
 export async function DELETE(req) {
     const searchParams = req.nextUrl.searchParams;
-    const id = searchParams.get('id');
-    const date = searchParams.get('date');
+    const studentId = searchParams.get('studentId');
+    const monthYear = searchParams.get('monthYear');
+    const day = searchParams.get('day');
 
     const result = await db.delete(attendance)
-        .where(
-            and(
-                eq(attendance.id, id),
-                eq(attendance.date, date)
-            )
-        );
+    .where(
+        and(
+            eq(attendance.studentId, studentId),
+            eq(attendance.monthYear, monthYear),
+            eq(attendance.day, day)
+
+        )
+    ) 
 
     return NextResponse.json(result);
 }

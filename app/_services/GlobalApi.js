@@ -77,9 +77,9 @@ const MarkAttendance = async (data) => {
 };
 
 // Mark a student absent by ID and date
-const MarkAbsent = async (id, date) => {
+const MarkAbsent = async (studentId, monthYear, day) => {
   try {
-    const resp = await axiosInstance.delete(`/api/attendance?id=${id}&date=${date}`); // Adjusted path
+    const resp = await axiosInstance.delete(`/api/attendance?studentId=${studentId}&monthYear=${monthYear}&day=${day}`); // Adjusted path
     return resp.data;
   } catch (error) {
     console.error("Failed to mark absent:", error);

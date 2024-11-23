@@ -72,14 +72,14 @@ export default function AttendanceGrid({ attendanceList, selectedMonth }) {
                 present: presentStatus,
                 monthYear: date,
             };
-            GlobalApi.MarkAttendance(data).then((resp) => {
-                // console.log(resp);
+            GlobalApi.MarkAttendance(data).then(resp => {
+                console.log("marked present");
                 toast("Student id: " + studentId + "marked as present");
                 
             });
         } else {
-            GlobalApi.MarkAbsent(id, date).then((resp) => {
-                toast(`Student Id:${id} Marked as absent`);
+            GlobalApi.MarkAbsent(studentId, date, day).then(resp => {
+                toast(`Student Id:${studentId} Marked as absent`);
             });
         }
     };
