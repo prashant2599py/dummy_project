@@ -33,7 +33,7 @@ export async function GET(req) {
                     eq(attendance.studentId, students.id), // Match student IDs
                     eq(attendance.monthYear, month)             // Match specific date
                 )
-            )
+            )   
             .where(eq(students.batchId, batch)); // Filter by batch
 
         return NextResponse.json(result)

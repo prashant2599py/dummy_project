@@ -1,16 +1,12 @@
-export const getUniqueRecord = (attendancelist) => {
-    // Check if attendancelist is an array before proceeding
-    if (!Array.isArray(attendancelist)) {
-        console.error("Invalid attendancelist: Expected an array.");
-        return []; // Return an empty array if attendancelist is not valid
-    }
+// Get unique records of students from table
 
+export const getUniqueRecord = (attendanceList) => {
     const uniqueRecord = [];
     const existingUser = new Set();
 
-    attendancelist.forEach((record) => {
-        if (record && record.id && !existingUser.has(record.id)) { // Ensure record and record.id exist
-            existingUser.add(record.id);
+    attendanceList?.forEach((record) => {
+        if (!existingUser.has(record.studentId)) {
+            existingUser.add(record.studentId);
             uniqueRecord.push(record);
         }
     });

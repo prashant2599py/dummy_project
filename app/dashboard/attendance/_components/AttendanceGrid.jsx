@@ -5,17 +5,18 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied
 import moment from 'moment';
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import GlobalApi from '@/app/_services/GlobalApi';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
+
 
 // const pagination = true;
 // const paginationPageSize = 10;
-// const paginationPageSizeSelector = [25, 50, 100];
+// const paginationPageSizeSelector = [10, 25, 50, 100];
 
 export default function AttendanceGrid({ attendanceList, selectedMonth }) {
     const [rowData, setRowData] = useState();
     const [colDefs, setColDefs] = useState([
         { field: 'studentId'},
-        { field: 'name'},
+        { field: 'name', filter: true},
     ]);
 
     const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
@@ -73,13 +74,13 @@ export default function AttendanceGrid({ attendanceList, selectedMonth }) {
                 monthYear: date,
             };
             GlobalApi.MarkAttendance(data).then(resp => {
-                console.log("marked present");
-                toast("Student id: " + studentId + "marked as present");
+                // console.log("marked present");
+                toast('Student id:' + studentId + 'marked as present')
                 
             });
         } else {
             GlobalApi.MarkAbsent(studentId, date, day).then(resp => {
-                toast(`Student Id:${studentId} Marked as absent`);
+                toast('Student Id:' + studentId + ' Marked as absent');
             });
         }
     };
@@ -94,7 +95,10 @@ export default function AttendanceGrid({ attendanceList, selectedMonth }) {
                     rowData={rowData}
                     columnDefs={colDefs}
                     onCellValueChanged={(e) => onMarkAttendance(e.colDef.field,e.data.studentId,e.newValue)}
-                />
+                    // pagination={pagination}
+                    // paginationPageSize={paginationPageSize}
+                    // paginationPageSizeSelector={paginationPageSizeSelector}               
+               />
             </div>
         </div>
     );

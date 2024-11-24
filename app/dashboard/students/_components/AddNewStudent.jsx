@@ -9,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { toast } from 'react-toastify';
 import GlobalApi from '@/app/_services/GlobalApi';
+import { toast } from 'sonner';
 
 function AddNewStudent({ refreshData }) {
   const [open, setOpen] = useState(false);
@@ -45,13 +45,14 @@ function AddNewStudent({ refreshData }) {
       if (resp.data) {
         reset();
         setOpen(false);
-        toast.success('New Student Added!');
+        refreshData();
+        toast('New Student Added!')
         refreshData();
       }
     } catch (error) {
       // console.error("Failed to add new student:", error);  // Log the entire error object
       const errorMessage = error?.response?.data?.message || error?.message || "Error adding student.";
-      toast.error(errorMessage); // Use the error message from response or fallback to general message
+      toast(errorMessage); // Use the error message from response or fallback to general message
     } finally {
       setLoading(false);
     }
@@ -112,7 +113,7 @@ function AddNewStudent({ refreshData }) {
                   <Input
                     id="id"
                     type="number"
-                    placeholder='Ex. 9922103215'
+                    placeholder='Ex. 999'
                     {...register('id', {
                       required: 'Enrollment is required',
                       min: { value: 100, message: 'Invalid enrollment number' },

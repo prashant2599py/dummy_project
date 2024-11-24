@@ -88,9 +88,9 @@ const MarkAbsent = async (studentId, monthYear, day) => {
 };
 
 // Fetch total present count by day and batch
-const TotalPresentCountByDay = async (date, batch) => {
+const TotalPresentCountByDay = async (monthYear, batch) => {
   try {
-    const resp = await axiosInstance.get(`/api/dashboard/route?date=${date}&batch=${batch}`); // Adjusted path
+    const resp = await axiosInstance.get(`/api/dashboard?monthYear=${monthYear}&batch=${batch}`); // Adjusted path
     return resp.data;
   } catch (error) {
     console.error("Failed to fetch present count:", error);

@@ -9,13 +9,19 @@ function StatusList({ attendanceList }) {
     const [presentPerc, setPresentPerc] = useState(0);
 
     useEffect(() => {
-        if (attendanceList) {
-            const totalSt = getUniqueRecord(attendanceList);
-            setTotalStudent(totalSt.length);
+        // console.log(attendanceList);
 
-            const presentCount = attendanceList.filter(record => record.isPresent).length;
-            const PresentPrec = (presentCount / totalSt.length) * 100;
-            setPresentPerc(PresentPrec);
+        if (attendanceList) {
+            const totalStudents = getUniqueRecord(attendanceList);
+            console.log(totalStudents.length);
+            setTotalStudent(totalStudents.length);
+
+            const today = moment().format('D');
+            // console.log(today)
+                const presentPercentage = attendanceList.length/(totalStudents.length*Number(today))*100;
+                console.log(presentPercentage)
+                setPresentPerc(presentPercentage);
+            
         }
     }, [attendanceList]);
 
